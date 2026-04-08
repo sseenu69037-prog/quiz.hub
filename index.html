@@ -129,6 +129,7 @@ footer{
 <li><a onclick="showHome()">Home</a></li>
 <li><a onclick="showAbout()">About</a></li>
 <li><a onclick="showContact()">Contact</a></li>
+<li><a onclick="logout()">Logout</a></li>
 </ul>
 </nav>
 
@@ -186,23 +187,36 @@ footer{
 
 // LOGIN
 function login(){
+ let u=document.getElementById("username").value.trim();
+ let p=document.getElementById("password").value.trim();
 
- let u = document.getElementById("username").value.trim();
- let p = document.getElementById("password").value.trim();
-
- if(
-   (u === "srinivasan.a" && p === "quiz@123") ||
-   (u === "ragul.pg" && p === "quiz@456")
- ){
-   document.getElementById("loginPage").style.display = "none";
-   showHome();
- } 
- else {
-   alert("Invalid username or password");
+ if(u==="admin" && p==="1234"){
+  document.getElementById("loginPage").style.display="none";
+  showHome();
+ } else {
+  alert("Invalid login");
  }
 }
 
+function logout(){
+ if(confirm("Are you sure you want to logout?")){
+  
+  // hide all pages
+  hideAll();
 
+  // show login again
+  document.getElementById("loginPage").style.display = "flex";
+
+  // clear inputs
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+
+  // clear quiz UI
+  document.getElementById("result").innerText = "";
+  document.getElementById("question").innerText = "";
+  document.getElementById("options").innerHTML = "";
+ }
+}
 // NAVIGATION
 function hideAll(){
  document.getElementById("home").classList.add("hidden");
@@ -276,17 +290,9 @@ let quiz=[],i=0,score=0;
 // START QUIZ
 function startQuiz(type){
  hideAll();
-
- quiz = data[type];
- i = 0;
- score = 0;
-
- document.getElementById("result").innerText = "";
- document.getElementById("question").innerText = "";
- document.getElementById("options").innerHTML = "";
-
+ quiz=data[type];
+ i=0; score=0;
  document.getElementById("quiz").classList.remove("hidden");
-
  showQ();
 }
 
